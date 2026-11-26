@@ -1,0 +1,35 @@
+---
+import BlogPost from '../../layouts/BlogPost.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog')).filter((post) => !post.data.draft);
+  return posts.map((post) => {
+    const related = posts
+      .filter(
+        (other) =>
+          other.slug !== post.slug &&
+          other.data.tags.some((tag) => post.data.tags.includes(tag)),
+      )
+      .sort((a, b) => (b.data.pubDate?.getTime() ?? 0) - (a.data.pubDate?.getTime() ?? 0))
+      .slice(0, 3);
+    const words = post.body.split(/\s+/).length;
+    const readingMinutes = Math.max(1, Math.round(words / 200));
+    return { params: { slug: post.slug }, props: { post, related, readingMinutes } };
+  });
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  related: CollectionEntry<'blog'>[];
+  readingMinutes: number;
+}
+
+const { post, related, readingMinutes } = Astro.props;
+const { Content } = await post.render();
+---
+
+<BlogPost post={post} related={related} readingMinutes={readingMinutes}>
+  <Content />
+</BlogPost>
