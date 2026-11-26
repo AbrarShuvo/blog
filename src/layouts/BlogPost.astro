@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -43,41 +44,45 @@ const breadcrumbLd = {
 };
 ---
 
-<BaseLayout title={`${title} — Abrar Zamil`} description={description} image={cover} type="article" jsonLd={[articleLd, breadcrumbLd]}>
-  <nav class="crumbs" aria-label="Breadcrumb">
-    <a href={`${base}`}>Home</a> / <a href={`${base}`}>Articles</a> / {title}
-  </nav>
-  <h1>{title}</h1>
-  <p class="muted small">
-    {pubDate && <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>}
-    {pubDate && updatedDate && updatedDate.getTime() !== pubDate.getTime() && (
-      <> · Updated <time datetime={updatedDate.toISOString()}>{fmt(updatedDate)}</time></>
-    )}
-    {pubDate && <> · </>}
-    {readingMinutes} min read
-  </p>
-  {tags.length > 0 && (
-    <ul class="tags" aria-label="Tags">
-      {tags.map((tag) => (
-        <li><a href={`${base}blog/tags/${tag}/`}>{tag}</a></li>
-      ))}
-    </ul>
-  )}
-  <slot />
+<BaseLayout title={title} description={description} image={cover} type="article" jsonLd={[articleLd, breadcrumbLd]}>
+  <div class="narrow">
+    <nav class="crumbs rise" aria-label="Breadcrumb">
+      <a href={`${base}`}>Home</a> / <a href={`${base}`}>Articles</a> / {title}
+    </nav>
+    <header class="glass article-hero rise" style="--d: 0.05s">
+      <span class="eyebrow">{tags[0] ?? 'Article'}</span>
+      <h1>{title}</h1>
+      <p class="muted small">
+        {pubDate && <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>}
+        {pubDate && updatedDate && updatedDate.getTime() !== pubDate.getTime() && (
+          <> · Updated <time datetime={updatedDate.toISOString()}>{fmt(updatedDate)}</time></>
+        )}
+        {pubDate && <> · </>}
+        {readingMinutes} min read
+      </p>
+      {tags.length > 0 && (
+        <ul class="tags" aria-label="Tags">
+          {tags.map((tag) => (
+            <li><a href={`${base}blog/tags/${tag}/`}>{tag}</a></li>
+          ))}
+        </ul>
+      )}
+    </header>
+  </div>
+  <div class="prose narrow rise" style="--d: 0.15s">
+    <slot />
+  </div>
   {related.length > 0 && (
-    <section aria-labelledby="related-heading">
+    <section class="related" aria-labelledby="related-heading">
       <h2 id="related-heading">Related articles</h2>
-      <ul class="post-list">
-        {related.map((rel) => (
-          <li>
-            <h3><a href={`${base}blog/${rel.slug}/`}>{rel.data.title}</a></h3>
-            <p class="muted small">{rel.data.description}</p>
-          </li>
+      <div class="bento">
+        {related.map((rel, i) => (
+          <PostCard post={rel} span={3} delay={`${0.2 + i * 0.1}s`} />
         ))}
-      </ul>
+      </div>
     </section>
   )}
-  <aside class="cta-box" aria-label="Work with Abrar">
+  <aside class="glass cta-box narrow rise" style="--d: 0.3s" aria-label="Work with Abrar">
     <p>
       <strong>Need something like this?</strong>
       {portfolioLink ? (
