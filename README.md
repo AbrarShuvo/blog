@@ -1,9 +1,11 @@
 # Abrar Zamil — Notes
 
-A minimal blog for useful, experience-based articles: Python, workflow
+A blog for useful, experience-based articles: Python, workflow
 automation, AI integrations, data dashboards and websites. Astro, static
 output, Markdown articles in `src/content/blog`. No React, no Tailwind, one
-small CSS file. No client-side JS except what Astro needs.
+CSS file, no client-side JS except what Astro needs. Bento glass design:
+glass cards on a gradient background, CSS-only animations, light and dark
+follow the system setting.
 
 Live site: see below (Vercel is the primary host).
 
