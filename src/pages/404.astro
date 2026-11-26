@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page not found — Abrar Zamil"
+  description="This page does not exist on Abrar Zamil's blog."
+  noindex
+>
+  <h1>Page not found</h1>
+  <p>That page isn&rsquo;t here. It may have moved, or the link may be wrong.</p>
+  <p><a href={import.meta.env.BASE_URL}>← Back to all articles</a></p>
+</BaseLayout>
