@@ -1,0 +1,36 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  featured?: boolean;
+  span?: 2 | 3 | 4 | 6;
+  delay?: string;
+  level?: 'h2' | 'h3';
+}
+
+const { post, featured = false, span = 3, delay = '0s', level = 'h3' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<a
+  class={`glass post-card span-${span} rise${featured ? ' featured' : ''}`}
+  style={`--d: ${delay}`}
+  href={`${base}blog/${post.slug}/`}
+>
+  <span class="eyebrow">{featured ? 'Latest article' : (post.data.tags[0] ?? 'Article')}</span>
+  {featured ? (
+    <h2>{post.data.title}</h2>
+  ) : level === 'h2' ? (
+    <h2>{post.data.title}</h2>
+  ) : (
+    <h3>{post.data.title}</h3>
+  )}
+  <p class="desc">{post.data.description}</p>
+  <p class="muted small">
+    {post.data.pubDate && <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>}
+    {post.data.tags.length > 0 && <> · {post.data.tags.join(', ')}</>}
+  </p>
+  <span class="read-more">Read <span class="arr" aria-hidden="true">→</span></span>
+</a>
