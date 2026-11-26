@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog'))
@@ -7,33 +8,84 @@ const posts = (await getCollection('blog'))
   .sort((a, b) => (b.data.pubDate?.getTime() ?? 0) - (a.data.pubDate?.getTime() ?? 0));
 
 const base = import.meta.env.BASE_URL;
-const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+// Featured = the flagship Loom article when published, else the newest post.
+const featured =
+  posts.find((post) => post.slug === 'how-i-turned-meeting-recordings-into-task-lists-with-python') ?? posts[0];
+const rest = posts.filter((post) => post !== featured);
+const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
 ---
 
 <BaseLayout
   title="Abrar Zamil — Notes on Python, automation and AI"
   description="Short, useful articles from real client work: Python automation, AI integrations, data dashboards and websites."
 >
-  <h1>Notes</h1>
-  <p>
-    I&rsquo;m Abrar Zamil, a freelance Python developer. I write short, useful
-    articles from real client work — workflow automation, AI integrations,
-    data dashboards and websites. No filler, no hype.
-  </p>
-  {posts.length === 0 ? (
-    <p class="muted">No articles published yet. The first one is on its way.</p>
-  ) : (
-    <ul class="post-list">
-      {posts.map((post) => (
-        <li>
-          <h2><a href={`${base}blog/${post.slug}/`}>{post.data.title}</a></h2>
-          <p class="muted small">
-            {post.data.pubDate && <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>}
-            {post.data.tags.length > 0 && <> · {post.data.tags.join(', ')}</>}
+  <div class="bento">
+    <section class="glass hero span-6 rise" aria-labelledby="notes-heading">
+      <span class="eyebrow">Notes</span>
+      <h1 id="notes-heading">Short, useful articles from real client work.</h1>
+      <p class="lead">
+        I&rsquo;m Abrar Zamil, a freelance Python developer. I write about
+        workflow automation, AI integrations, data dashboards and websites —
+        one real problem at a time. No filler, no hype.
+      </p>
+      <div class="btns">
+        {featured && (
+          <a class="btn btn-grad" href={`${base}blog/${featured.slug}/`}>
+            Start reading <span aria-hidden="true">→</span>
+          </a>
+        )}
+        <a class="btn btn-glass" href={`${base}about/`}>About me</a>
+      </div>
+      <p class="meta">
+        {posts.length} article{posts.length === 1 ? '' : 's'} published
+        {tags.length > 0 && <> · Topics: {tags.join(', ')}</>}
+      </p>
+    </section>
+
+    {posts.length === 0 ? (
+      <p class="glass mini-card span-6 rise" style="--d: 0.1s">
+        No articles published yet. The first one is on its way.
+      </p>
+    ) : (
+      <>
+        {featured && <PostCard post={featured} featured span={4} delay="0.1s" />}
+        <section class="glass mini-card span-2 rise" style="--d: 0.2s" aria-labelledby="topics-heading">
+          <span class="eyebrow">Browse by topic</span>
+          <h2 id="topics-heading">Topics</h2>
+          <ul class="tags">
+            {tags.map((tag) => (
+              <li><a href={`${base}blog/tags/${tag}/`}>{tag}</a></li>
+            ))}
+          </ul>
+        </section>
+        {rest.map((post, i) => (
+          <PostCard post={post} span={3} delay={`${0.25 + i * 0.1}s`} />
+        ))}
+        <section class="glass mini-card span-3 rise" style="--d: 0.35s" aria-labelledby="about-mini-heading">
+          <span class="eyebrow">About</span>
+          <h2 id="about-mini-heading">Hi, I&rsquo;m Abrar.</h2>
+          <p>
+            I build small Python tools that take repetitive work off a
+            team&rsquo;s plate — automations, AI tools, dashboards and websites
+            for small businesses.
           </p>
-          <p>{post.data.description}</p>
-        </li>
-      ))}
-    </ul>
-  )}
+          <div class="btns">
+            <a class="btn btn-glass" href={`${base}about/`}>More about me</a>
+          </div>
+        </section>
+        <section class="glass mini-card cta-card span-3 rise" style="--d: 0.45s" aria-labelledby="cta-heading">
+          <span class="eyebrow">Work with me</span>
+          <h2 id="cta-heading">Need something built?</h2>
+          <p>
+            Have a look at the case studies, or send me a short message
+            about your project. I reply within one working day.
+          </p>
+          <div class="btns">
+            <a class="btn btn-dark" href="https://abrarshuvo.github.io/projects.html">See my work</a>
+            <a class="btn btn-glass" href="https://abrarshuvo.github.io/contact.html">Get in touch</a>
+          </div>
+        </section>
+      </>
+    )}
+  </div>
 </BaseLayout>
