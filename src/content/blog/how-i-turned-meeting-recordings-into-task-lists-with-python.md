@@ -2,34 +2,58 @@
 title: How I turned meeting recordings into task lists with Python
 description: How a Python tool turns a recorded meeting into a checked list of tasks, owners and deadlines — no rewatching the call.
 tags: [python, automation]
-draft: true
+pubDate: 2026-11-26
+draft: false
 portfolioLink: https://abrarshuvo.github.io/loom-to-tasks.html
-# pubDate is set when this article is published. Do not invent one here.
 ---
 
-<!-- DRAFT OUTLINE ONLY. Write the full text from your own experience.
-     See WRITING.md for the rules before publishing. -->
+A design agency I worked with recorded every client meeting. Afterwards, one designer rewatched the whole recording and wrote down what the client asked for. I built a Python tool that reads the transcript and turns it into a checked list of tasks, owners, deadlines and decisions, so nobody has to rewatch the call.
 
 ## The problem
 
-[Note: a design agency records its client meetings; afterwards one designer rewatched the whole recording and wrote down what the client asked for. It worked, but it cost a full rewatch every time, and anything missed was simply lost.]
+The decisions were in the recording. Nobody had time to find them.
+
+A design agency records its client meetings. Afterwards, one designer watches the whole recording, writes down what the client asked for and passes it on. It works, but it costs a full rewatch every time, and anything missed is simply lost.
+
+The agency didn't need a new meeting tool. They needed someone to read the meeting they already had and pull the work out of it.
 
 ## What I built
 
-[Note: a Python tool that takes the transcript of a recorded meeting or Loom video and returns a clear list of decisions, tasks with owner, deadline and priority, and blockers. Built with Python and the Gemini API, using structured outputs and an automated test suite.]
+A tool that reads the transcript and returns the work.
 
-## How it works
+The tool takes the transcript of a recorded meeting or Loom video and returns a clear list of decisions, tasks with owner, deadline and priority, and blockers. It is built with Python and the Gemini API, using structured outputs and an automated test suite.
 
-[Note: three steps — 1. Read the transcript: clean it up, split it into who said what and when. 2. Pull out the work: AI picks out tasks, owners, deadlines and decisions, and has to answer in one fixed format. 3. Check and save: every answer is checked against that format, asked again if it's wrong, then saved as a task list other tools can read.]
+It works in three steps:
+
+1. **Read the transcript.** The tool cleans up the transcript and splits it into who said what, and when.
+2. **Pull out the work.** AI picks out the tasks, owners, deadlines and decisions, and has to answer in one fixed format.
+3. **Check and save.** Every answer is checked against that format, asked again if it's wrong, then saved as a task list other tools can read.
 
 ## One example
 
-[Note: the Brightleaf pricing-page sample meeting — the three-column pricing table decision, Priya's icons by Thursday, Dan's copy by Friday, the missing logo files as a blocker. Show the input quote, then the fixed-shape output.]
+A short meeting about a pricing page. Here is a sample meeting from the test set. Two decisions and three pieces of work, buried in one short update:
+
+> "We decided to go with the three-column pricing table instead of the toggle, because the toggle confused people in the last test. Priya, can you update the icons to the new set by Thursday? Dan, I need you to send the final copy for the headlines by Friday. One blocker: we still don't have the logo files from the client, so I can't finish the header."
+
+The tool returns this, in the same fixed shape every time:
+
+```
+Decision: use the three-column pricing table instead of the toggle
+Task: update icons to the new set — Priya, Thursday
+Task: send the final headline copy — Dan, Friday
+Blocker: logo files from the client are missing
+```
+
+Because the output always has the same shape, it can go straight into a task tool instead of being retyped.
 
 ## The rule that made it trustworthy
 
-[Note: it never guesses. If nobody said who owns a task or when it's due, it writes "unknown". A tentative owner ("maybe Lena") is named but marked unconfirmed. The correct answer for every test meeting was written before running the tool. 67/67 checks across four sample meetings.]
+It never guesses.
+
+The rule that matters most is a simple one: if nobody said who owns a task or when it's due, the tool writes "unknown" instead of making something up. A tentative owner, like "maybe Lena", is named but marked unconfirmed.
+
+I also wrote the correct answer for every test meeting before running the tool, so the tests measure accuracy, not just "it ran". Across four sample meetings — short, messy, long and written — it passed 67 out of 67 checks, finding every task, owner and deadline.
 
 ## What it can't do yet
 
-[Note: tested on sample meetings with answers prepared in advance — real client meetings are the next step. It starts from a transcript (Loom gives you one); it doesn't record the meeting itself. A human still reads the list before acting on it.]
+It was tested on sample meetings with answers prepared in advance. Real client meetings are the next step. It starts from a transcript — Loom gives you one — it doesn't record the meeting itself. And a human still reads the list before acting on it. The tool drafts the work; it doesn't decide it.
