@@ -13,6 +13,8 @@ const featured =
   posts.find((post) => post.slug === 'how-i-turned-meeting-recordings-into-task-lists-with-python') ?? posts[0];
 const rest = posts.filter((post) => post !== featured);
 const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
+const caseStudies = posts.filter((post) => post.data.portfolioLink).length;
+const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
 <BaseLayout
@@ -20,36 +22,59 @@ const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
   description="Short, useful articles from real client work: Python automation, AI integrations, data dashboards and websites."
 >
   <div class="bento">
-    <section class="glass hero span-6 rise" aria-labelledby="notes-heading">
+    <section class="hero span-6 rise" aria-labelledby="notes-heading">
       <span class="eyebrow">Notes</span>
-      <h1 id="notes-heading">Short, useful articles from real client work.</h1>
-      <p class="lead">
-        I&rsquo;m Abrar Zamil, a freelance Python developer. I write about
-        workflow automation, AI integrations, data dashboards and websites —
-        one real problem at a time. No filler, no hype.
-      </p>
-      <div class="btns">
-        {featured && (
-          <a class="btn btn-grad" href={`${base}blog/${featured.slug}/`}>
-            Start reading <span aria-hidden="true">→</span>
-          </a>
-        )}
-        <a class="btn btn-glass" href={`${base}about/`}>About me</a>
+      <h1 id="notes-heading">
+        Short, useful articles <span class="grad-text">from real client work.</span>
+      </h1>
+      <hr class="hero-rule" />
+      <div class="hero-row">
+        <p class="lead">
+          I&rsquo;m Abrar Zamil, a freelance Python developer. I write about
+          workflow automation, AI integrations, data dashboards and websites —
+          one real problem at a time. No filler, no hype.
+        </p>
+        <div class="hero-cta">
+          {featured && (
+            <a class="circle-cta" href={`${base}blog/${featured.slug}/`}>
+              <span class="circle" aria-hidden="true">→</span>
+              <span>Start reading</span>
+            </a>
+          )}
+          <a class="btn btn-outline" href={`${base}about/`}>About me</a>
+        </div>
       </div>
-      <p class="meta">
-        {posts.length} article{posts.length === 1 ? '' : 's'} published
-        {tags.length > 0 && <> · Topics: {tags.join(', ')}</>}
-      </p>
+      <div class="stats" aria-label="Blog in numbers">
+        <div class="stat">
+          <span class="stat-no">001</span>
+          <b>{pad(posts.length)}</b>
+          <span>Articles published</span>
+        </div>
+        <div class="stat">
+          <span class="stat-no">002</span>
+          <b>{pad(tags.length)}</b>
+          <span>Topics covered</span>
+        </div>
+        <div class="stat">
+          <span class="stat-no">003</span>
+          <b>{pad(caseStudies)}</b>
+          <span>Case studies linked</span>
+        </div>
+      </div>
     </section>
 
+    <div class="section-label span-6 rise" style="--d: 0.1s">
+      <span class="eyebrow">Latest articles</span>
+    </div>
+
     {posts.length === 0 ? (
-      <p class="glass mini-card span-6 rise" style="--d: 0.1s">
+      <p class="card mini-card span-6 rise" style="--d: 0.1s">
         No articles published yet. The first one is on its way.
       </p>
     ) : (
       <>
-        {featured && <PostCard post={featured} featured span={4} delay="0.1s" />}
-        <section class="glass mini-card span-2 rise" style="--d: 0.2s" aria-labelledby="topics-heading">
+        {featured && <PostCard post={featured} featured span={4} num="01" delay="0.1s" />}
+        <section class="card mini-card span-2 rise" style="--d: 0.2s" aria-labelledby="topics-heading">
           <span class="eyebrow">Browse by topic</span>
           <h2 id="topics-heading">Topics</h2>
           <ul class="tags">
@@ -59,9 +84,9 @@ const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
           </ul>
         </section>
         {rest.map((post, i) => (
-          <PostCard post={post} span={3} delay={`${0.25 + i * 0.1}s`} />
+          <PostCard post={post} span={3} num={pad(i + 2)} delay={`${0.25 + i * 0.1}s`} />
         ))}
-        <section class="glass mini-card span-3 rise" style="--d: 0.35s" aria-labelledby="about-mini-heading">
+        <section class="card mini-card span-3 rise" style="--d: 0.35s" aria-labelledby="about-mini-heading">
           <span class="eyebrow">About</span>
           <h2 id="about-mini-heading">Hi, I&rsquo;m Abrar.</h2>
           <p>
@@ -70,10 +95,10 @@ const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
             for small businesses.
           </p>
           <div class="btns">
-            <a class="btn btn-glass" href={`${base}about/`}>More about me</a>
+            <a class="btn btn-outline" href={`${base}about/`}>More about me</a>
           </div>
         </section>
-        <section class="glass mini-card cta-card span-3 rise" style="--d: 0.45s" aria-labelledby="cta-heading">
+        <section class="card mini-card cta-card span-3 rise" style="--d: 0.45s" aria-labelledby="cta-heading">
           <span class="eyebrow">Work with me</span>
           <h2 id="cta-heading">Need something built?</h2>
           <p>
@@ -82,7 +107,7 @@ const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
           </p>
           <div class="btns">
             <a class="btn btn-dark" href="https://abrarshuvo.github.io/projects.html">See my work</a>
-            <a class="btn btn-glass" href="https://abrarshuvo.github.io/contact.html">Get in touch</a>
+            <a class="btn btn-outline" href="https://abrarshuvo.github.io/contact.html">Get in touch</a>
           </div>
         </section>
       </>

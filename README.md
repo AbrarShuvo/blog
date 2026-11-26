@@ -3,9 +3,14 @@
 A blog for useful, experience-based articles: Python, workflow
 automation, AI integrations, data dashboards and websites. Astro, static
 output, Markdown articles in `src/content/blog`. No React, no Tailwind, one
-CSS file, no client-side JS except what Astro needs. Bento glass design:
-glass cards on a gradient background, CSS-only animations, light and dark
-follow the system setting.
+CSS file, no client-side JS except what Astro needs. Design borrows the
+best of three agency sites — Purple Softworks (vivid violet, huge bold
+headlines, hairlines, dark footer with a giant cropped wordmark),
+Musemind (black pill buttons, lemon-yellow accent, flat pastel cards,
+huge stat numbers) and Wavespace ("/ SECTION" slash labels, orange
+result figures, flat colour blocks). Plus Jakarta Sans is self-hosted
+in `public/fonts/`. CSS-only animations; light and dark follow the
+system setting.
 
 Live site: see below (Vercel is the primary host).
 

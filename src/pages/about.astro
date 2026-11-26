@@ -9,21 +9,24 @@ const base = import.meta.env.BASE_URL;
   description="Abrar Zamil is a freelance Python developer. This blog publishes short, useful articles from real client work."
 >
   <div class="bento">
-    <section class="glass hero span-6 rise" aria-labelledby="about-heading">
+    <section class="hero span-6 rise" aria-labelledby="about-heading">
       <span class="eyebrow">About</span>
       <h1 id="about-heading">Hi, I&rsquo;m Abrar Zamil.</h1>
-      <p class="lead">
-        I&rsquo;m a freelance Python developer. I build workflow automation, AI
-        integrations, data dashboards and websites for small businesses —
-        tools that take repetitive work off a team&rsquo;s plate.
-      </p>
-      <p class="lead">
-        This blog is where I write down what I learn doing that work: short,
-        useful articles about one real problem at a time, in plain language.
-      </p>
+      <hr class="hero-rule" />
+      <div class="hero-row">
+        <p class="lead">
+          I&rsquo;m a freelance Python developer. I build workflow automation, AI
+          integrations, data dashboards and websites for small businesses —
+          tools that take repetitive work off a team&rsquo;s plate.
+        </p>
+        <p class="lead">
+          This blog is where I write down what I learn doing that work: short,
+          useful articles about one real problem at a time, in plain language.
+        </p>
+      </div>
     </section>
 
-    <section class="glass mini-card span-4 rise" style="--d: 0.1s" aria-labelledby="build-heading">
+    <section class="card mini-card span-4 rise" style="--d: 0.1s" aria-labelledby="build-heading">
       <span class="eyebrow">What I build</span>
       <h2 id="build-heading">Four kinds of work</h2>
       <p>
@@ -44,7 +47,7 @@ const base = import.meta.env.BASE_URL;
       </p>
     </section>
 
-    <section class="glass mini-card span-2 rise" style="--d: 0.2s" aria-labelledby="elsewhere-heading">
+    <section class="card mini-card span-2 rise" style="--d: 0.2s" aria-labelledby="elsewhere-heading">
       <span class="eyebrow">Elsewhere</span>
       <h2 id="elsewhere-heading">Find me</h2>
       <p>
@@ -52,12 +55,12 @@ const base = import.meta.env.BASE_URL;
         <a href="https://abrarshuvo.github.io/">abrarshuvo.github.io</a>.
       </p>
       <div class="btns">
-        <a class="btn btn-glass" href="https://github.com/AbrarShuvo">GitHub</a>
-        <a class="btn btn-glass" href="https://www.linkedin.com/in/abrar-zamil-shuvo-059b04229">LinkedIn</a>
+        <a class="btn btn-outline" href="https://github.com/AbrarShuvo">GitHub</a>
+        <a class="btn btn-outline" href="https://www.linkedin.com/in/abrar-zamil-shuvo-059b04229">LinkedIn</a>
       </div>
     </section>
 
-    <section class="glass mini-card cta-card span-6 rise" style="--d: 0.3s" aria-labelledby="contact-heading">
+    <section class="card mini-card cta-card span-6 rise" style="--d: 0.3s" aria-labelledby="contact-heading">
       <span class="eyebrow">Work with me</span>
       <h2 id="contact-heading">Want something built?</h2>
       <p>
@@ -65,8 +68,8 @@ const base = import.meta.env.BASE_URL;
         working day.
       </p>
       <div class="btns">
-        <a class="btn btn-grad" href="https://abrarshuvo.github.io/contact.html">Get in touch</a>
-        <a class="btn btn-glass" href={`${base}`}>Read the articles</a>
+        <a class="btn btn-dark" href="https://abrarshuvo.github.io/contact.html">Get in touch</a>
+        <a class="btn btn-outline" href={`${base}`}>Read the articles</a>
       </div>
     </section>
   </div>

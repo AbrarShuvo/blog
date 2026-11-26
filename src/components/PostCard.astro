@@ -5,20 +5,22 @@ interface Props {
   post: CollectionEntry<'blog'>;
   featured?: boolean;
   span?: 2 | 3 | 4 | 6;
+  num?: string;
   delay?: string;
   level?: 'h2' | 'h3';
 }
 
-const { post, featured = false, span = 3, delay = '0s', level = 'h3' } = Astro.props;
+const { post, featured = false, span = 3, num, delay = '0s', level = 'h3' } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 
 <a
-  class={`glass post-card span-${span} rise${featured ? ' featured' : ''}`}
+  class={`card post-card span-${span} rise${featured ? ' featured' : ''}`}
   style={`--d: ${delay}`}
   href={`${base}blog/${post.slug}/`}
 >
+  {num && <span class="card-no" aria-hidden="true">{num}</span>}
   <span class="eyebrow">{featured ? 'Latest article' : (post.data.tags[0] ?? 'Article')}</span>
   {featured ? (
     <h2>{post.data.title}</h2>

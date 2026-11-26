@@ -39,37 +39,35 @@ const siteName = 'Abrar Zamil — Notes';
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
     <link rel="icon" href={`${base}favicon.svg`} />
-    <meta name="theme-color" content="#fdfdff" />
+    <meta name="theme-color" content="#fdfdfc" />
     {jsonLd.map((data) => (
       <script type="application/ld+json" set:html={JSON.stringify(data)} />
     ))}
   </head>
   <body>
-    <div class="bg-blobs" aria-hidden="true">
-      <span class="blob b1"></span>
-      <span class="blob b2"></span>
-      <span class="blob b3"></span>
-    </div>
     <a class="skip" href="#main">Skip to content</a>
-    <header class="site-header glass rise">
+    <header class="site-header">
       <a class="brand" href={`${base}`}><span class="brand-mark" aria-hidden="true">A</span>Abrar Zamil</a>
       <nav aria-label="Main">
-        <a href={`${base}`}>Articles</a>
-        <a href={`${base}about/`}>About</a>
-        <a href="https://abrarshuvo.github.io/">Portfolio</a>
+        <a class="nav-link" href={`${base}`}>Articles</a>
+        <a class="nav-link" href={`${base}about/`}>About</a>
+        <a class="btn btn-violet" href="https://abrarshuvo.github.io/">Portfolio →</a>
       </nav>
     </header>
     <main id="main">
       <slot />
     </main>
     <footer class="site-footer">
-      <div class="foot-in glass rise" style="--d: 0.4s">
+      <div class="foot-in">
         <span>© 2026 Abrar Zamil</span>
         <span class="spacer"></span>
         <a href="https://abrarshuvo.github.io/">Portfolio</a>
         <a href="https://github.com/AbrarShuvo">GitHub</a>
         <a href="https://www.linkedin.com/in/abrar-zamil-shuvo-059b04229">LinkedIn</a>
         <a href={`${base}rss.xml`}>RSS</a>
+      </div>
+      <div class="foot-word-wrap" aria-hidden="true">
+        <span class="foot-word">Abrar Zamil</span>
       </div>
     </footer>
   </body>

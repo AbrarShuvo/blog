@@ -49,7 +49,7 @@ const breadcrumbLd = {
     <nav class="crumbs rise" aria-label="Breadcrumb">
       <a href={`${base}`}>Home</a> / <a href={`${base}`}>Articles</a> / {title}
     </nav>
-    <header class="glass article-hero rise" style="--d: 0.05s">
+    <header class="article-hero rise" style="--d: 0.05s">
       <span class="eyebrow">{tags[0] ?? 'Article'}</span>
       <h1>{title}</h1>
       <p class="muted small">
@@ -77,12 +77,12 @@ const breadcrumbLd = {
       <h2 id="related-heading">Related articles</h2>
       <div class="bento">
         {related.map((rel, i) => (
-          <PostCard post={rel} span={3} delay={`${0.2 + i * 0.1}s`} />
+          <PostCard post={rel} span={3} num={String(i + 1).padStart(2, '0')} delay={`${0.2 + i * 0.1}s`} />
         ))}
       </div>
     </section>
   )}
-  <aside class="glass cta-box narrow rise" style="--d: 0.3s" aria-label="Work with Abrar">
+  <aside class="cta-box narrow rise" style="--d: 0.3s" aria-label="Work with Abrar">
     <p>
       <strong>Need something like this?</strong>
       {portfolioLink ? (
@@ -91,5 +91,11 @@ const breadcrumbLd = {
         <> See <a href="https://abrarshuvo.github.io/projects.html">my work</a> or <a href="https://abrarshuvo.github.io/contact.html">get in touch</a>.</>
       )}
     </p>
+    <div class="btns">
+      <a class="btn btn-white" href="https://abrarshuvo.github.io/contact.html">Get in touch →</a>
+      {portfolioLink && (
+        <a class="btn btn-ghost-dark" href={portfolioLink}>See the case study</a>
+      )}
+    </div>
   </aside>
 </BaseLayout>
