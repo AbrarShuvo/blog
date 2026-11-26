@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => (b.data.pubDate?.getTime() ?? 0) - (a.data.pubDate?.getTime() ?? 0));
+
+const base = import.meta.env.BASE_URL;
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<BaseLayout
+  title="Abrar Zamil — Notes on Python, automation and AI"
+  description="Short, useful articles from real client work: Python automation, AI integrations, data dashboards and websites."
+>
+  <h1>Notes</h1>
+  <p>
+    I&rsquo;m Abrar Zamil, a freelance Python developer. I write short, useful
+    articles from real client work — workflow automation, AI integrations,
+    data dashboards and websites. No filler, no hype.
+  </p>
+  {posts.length === 0 ? (
+    <p class="muted">No articles published yet. The first one is on its way.</p>
+  ) : (
+    <ul class="post-list">
+      {posts.map((post) => (
+        <li>
+          <h2><a href={`${base}blog/${post.slug}/`}>{post.data.title}</a></h2>
+          <p class="muted small">
+            {post.data.pubDate && <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>}
+            {post.data.tags.length > 0 && <> · {post.data.tags.join(', ')}</>}
+          </p>
+          <p>{post.data.description}</p>
+        </li>
+      ))}
+    </ul>
+  )}
+</BaseLayout>
