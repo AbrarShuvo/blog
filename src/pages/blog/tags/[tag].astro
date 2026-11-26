@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostCard from '../../../components/PostCard.astro';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 
@@ -24,25 +25,21 @@ interface Props {
 
 const { tag, posts } = Astro.props;
 const base = import.meta.env.BASE_URL;
-const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 
 <BaseLayout
   title={`Articles tagged “${tag}” — Abrar Zamil`}
   description={`Articles by Abrar Zamil tagged ${tag}: Python, workflow automation, AI integrations and data dashboards.`}
 >
-  <h1>Tagged &ldquo;{tag}&rdquo;</h1>
-  <p class="muted">{posts.length} article{posts.length === 1 ? '' : 's'}</p>
-  <ul class="post-list">
-    {posts.map((post) => (
-      <li>
-        <h2><a href={`${base}blog/${post.slug}/`}>{post.data.title}</a></h2>
-        <p class="muted small">
-          {post.data.pubDate && <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>}
-        </p>
-        <p>{post.data.description}</p>
-      </li>
+  <div class="bento">
+    <section class="glass hero span-6 rise" aria-labelledby="tag-heading">
+      <span class="eyebrow">Topic</span>
+      <h1 id="tag-heading">{tag}</h1>
+      <p class="lead">{posts.length} article{posts.length === 1 ? '' : 's'} on this topic.</p>
+    </section>
+    {posts.map((post, i) => (
+      <PostCard post={post} span={3} level="h2" delay={`${0.1 + i * 0.1}s`} />
     ))}
-  </ul>
-  <p><a href={`${base}`}>← All articles</a></p>
+    <p class="span-6 rise" style="--d: 0.3s"><a href={`${base}`}>← All articles</a></p>
+  </div>
 </BaseLayout>
